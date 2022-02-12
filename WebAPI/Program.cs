@@ -1,13 +1,14 @@
+using WebAPI;
+using WebAPI.Domain;
+using WebAPI.WebServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -16,28 +17,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapPost("/Time/Day", (double days) => TimeSpan.FromDays(days).Result());
+app.MapPost("/Time/Hour", (double hours) => TimeSpan.FromHours(hours).Result());
+app.MapPost("/Time/Minute", (double minutes) => TimeSpan.FromMinutes(minutes).Result());
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-       new WeatherForecast
-       (
-           DateTime.Now.AddDays(index),
-           Random.Shared.Next(-20, 55),
-           summaries[Random.Shared.Next(summaries.Length)]
-       ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapPost("/Area/Acre", (double acres) => Area.FromAcres(acres).Result());
+app.MapPost("/Area/Hectare", (double hectares) => Area.FromHectares(hectares).Result());
+app.MapPost("/Area/SquareMeter", (double meters) => Area.FromMeters(meters).Result());
+
+app.MapPost("/Mass/Ton", (double tons) => Mass.FromTons(tons).Result());
+app.MapPost("/Mass/Kilogram", (double kilograms) => Mass.FromKilograms(kilograms).Result());
+app.MapPost("/Mass/Pound", (double pounds) => Mass.FromPounds(pounds).Result());
+
+app.MapPost("/Speed/Mph", (double mph) => Speed.FromMph(mph).Result());
+app.MapPost("/Speed/Kph", (double kph) => Speed.FromKph(kph).Result());
+
+app.MapPost("/Currency", async (string currencyIsoCode) => await Currency.GetQuotation(currencyIsoCode));
+
+app.MapPost("/Address/Name", async (string name) => await Address.GetAddress(name));
+app.MapPost("/Address/CEP", async (string cep) => await Address.GetCEP(cep));
+
+app.MapPost("/WeatherForecast", async (string city) => await Weather.Forecast(city));
+
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
