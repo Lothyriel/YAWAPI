@@ -6,7 +6,7 @@ namespace WebAPI.WebServices
     {
         public const string CurrencyAPI = "https://economia.awesomeapi.com.br/last/";
 
-        public static async Task<Dictionary<object, object>> GetQuotation(string currencyIsoCode)
+        public static async Task<Dictionary<string, string>> GetQuotation(string currencyIsoCode)
         {
             var response = await HttpClient.GetAsync($"{CurrencyAPI}{currencyIsoCode}");
 
@@ -22,7 +22,7 @@ namespace WebAPI.WebServices
 
                 result = $"{currencyValue} BRL";
             }
-            return new Dictionary<object, object>
+            return new Dictionary<string, string>
             {
                 [currencyIsoCode.ToUpper()] = result
             };

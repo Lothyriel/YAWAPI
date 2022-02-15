@@ -39,5 +39,4 @@ app.MapPost("/Address/CEP", async (string cep) => await Address.GetCEP(cep));
 
 app.MapPost("/WeatherForecast", async (string city) => await Weather.Forecast(city));
 
-
 app.Run();

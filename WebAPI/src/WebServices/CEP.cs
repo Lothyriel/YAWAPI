@@ -7,7 +7,7 @@
             throw new NotImplementedException();
         }
 
-        internal static Task GetAddress(object cep)
+        internal static async Task GetAddress(object cep)
         {
             throw new NotImplementedException();
         }
