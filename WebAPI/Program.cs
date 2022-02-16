@@ -32,6 +32,7 @@ app.MapPost("/Mass/Pound", (double pounds) => Mass.FromPounds(pounds).Result());
 app.MapPost("/Speed/Mph", (double mph) => Speed.FromMph(mph).Result());
 app.MapPost("/Speed/Kph", (double kph) => Speed.FromKph(kph).Result());
 
+
 app.MapPost("/Currency", async (string currencyIsoCode) => await Currency.GetQuotation(currencyIsoCode));
 
 app.MapPost("/Address/Name", async (string cep) => await Address.GetAddress(cep));

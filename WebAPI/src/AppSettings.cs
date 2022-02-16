@@ -4,7 +4,7 @@ namespace WebAPI.src
 {
     public static class AppSettings
     {
-        public static string WeatherApiKey = AppConfig[nameof(WeatherApiKey)]!.ToString();
+        public static readonly string  WeatherApiKey = AppConfig[nameof(WeatherApiKey)]!.ToString();
 
         private const string JsonPath = @"appsettings.json";
 

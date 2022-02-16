@@ -12,7 +12,7 @@ namespace WebAPI.Domain
 
         public static async Task<List<Dictionary<string, string>>> Forecast(string city)
         {
-            (double lat, double lon) = await GetCityLattitude(city);
+            (double lat, double lon) = await GetCityCoordinates(city);
 
             if (lat == -1 && lon == -1)
                 return new() { new() { ["City"] = $"City {city} was not found" } };
@@ -20,7 +20,7 @@ namespace WebAPI.Domain
             return await GetCityWeather(lat, lon);
         }
 
-        public static async Task<(double, double)> GetCityLattitude(string cityName)
+        public static async Task<(double, double)> GetCityCoordinates(string cityName)
         {
             var url = string.Format(CoordinatesApiAddress, cityName, ApiKey);
 
@@ -64,6 +64,7 @@ namespace WebAPI.Domain
             return new()
             {
                 ["day"] = $"{ShowTwoDigits(dataDate.Day)}/{ShowTwoDigits(dataDate.Month)}",
+
                 ["min"] = (temp["min"]!).ToCelsius(),
                 ["max"] = (temp["max"]!).ToCelsius(),
                 ["weather"] = dayData["weather"]![0]!["description"]!.ToString(),
