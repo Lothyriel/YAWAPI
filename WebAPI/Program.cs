@@ -34,8 +34,8 @@ app.MapPost("/Speed/Kph", (double kph) => Speed.FromKph(kph).Result());
 
 app.MapPost("/Currency", async (string currencyIsoCode) => await Currency.GetQuotation(currencyIsoCode));
 
-app.MapPost("/Address/Name", async (string name) => await Address.GetAddress(name));
-app.MapPost("/Address/CEP", async (string cep) => await Address.GetCEP(cep));
+app.MapPost("/Address/Name", async (string cep) => await Address.GetAddress(cep));
+app.MapPost("/Address/CEP", async (string UF, string cidade, string rua) => await Address.GetCEP(UF, cidade, rua));
 
 app.MapPost("/WeatherForecast", async (string city) => await Weather.Forecast(city));
 
